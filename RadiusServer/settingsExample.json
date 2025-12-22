@@ -1,0 +1,33 @@
+{
+    "secret": "radius_secret",
+    "PORT": 5555,
+    "TTL": 120,
+    "DESCRIPTION": "Please Approve Your Identity",
+    "ALLOWTOTP": false,
+    "TOTPOBJECTdigits": 6,
+    "TOTPOBJECTalgorithm": "SHA3-384",
+    "TOTPOBJECTperiod": 120,
+    "SENDEREMAIL": "Email",
+    "PASSWORDEMAIL": "App password",
+    "EMAILHOST": "Office365",
+    "PASSWORD": "Password",
+    "URLIPTYPE": "Public",
+    "LOCATIONlongitude": "32.05",
+    "LOCATIONlatitude": "34.78",
+    "PRIVATEKEY": "C:\\Push Backend\\keys\\10Root-privateKey.pem",
+    "APIURL": "URL OF IP",
+    "WAYOFNOTIFICATION": "Both",
+    "EMAILLIST": [],
+    "PHONELIST": [],
+    "UserDirectory": "C:\\web development\\10Root\\Radius Server\\UserDirectory.json",
+    "minApproval": 1,
+    "MinPhoneApproval": "0",
+    "Threshold": {
+        "Enabled": false,
+        "TimeAllowedInHours": 3
+    },
+    "Interval": {
+        "Enabled": true,
+        "TimeInMinutes": 3
+    }
+}

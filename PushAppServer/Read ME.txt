@@ -1,0 +1,12 @@
+# PushAppServer
+
+ip accessed:
+To get externalIP
+http://checkip.amazonaws.com
+
+To send Emails
+smtp.gmail.com
+smtp.office365.com
+
+To send Phone notification
+https://exp.host/--/api/v2/push/send

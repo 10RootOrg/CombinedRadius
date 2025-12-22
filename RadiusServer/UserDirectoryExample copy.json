@@ -1,0 +1,31 @@
+{
+  "example@example": {
+    "EmailList": ["example@example.com"],
+    "PhoneList": ["example Phone id"],
+    "minApproval": 1,
+    "TTL": 60,
+    "DESCRIPTION": "i am example",
+    "ALLOWTOTP": false,
+    "TOTPOBJECTdigits": 4,
+    "TOTPOBJECTalgorithm": "SHA3-384",
+    "TOTPOBJECTperiod": 60,
+    "SENDEREMAIL": "",
+    "PASSWORDEMAIL": "",
+    "EMAILHOST": "",
+    "URLIPTYPE": "private",
+    "WAYOFNOTIFICATION": "Both",
+    "LOCATIONlongitude": "32.05",
+    "LOCATIONlatitude": "34.78",
+    "PRIVATEKEY": "Absolute Path\\test-privateKey.pem",
+    "MinPhoneApproval": 0,
+    "StaticIp": "",
+    "Threshold": {
+      "Enabled": false,
+      "TimeAllowedInHours": 3
+    },
+    "Interval": {
+      "Enabled": true,
+      "TimeInMinutes": 3
+    }
+  }
+}

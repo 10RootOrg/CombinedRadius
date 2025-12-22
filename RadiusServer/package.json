@@ -1,0 +1,24 @@
+{
+  "name": "radius_server",
+  "version": "0.1.0",
+  "description": "This a radius server prototype for use with crowd strike ",
+  "main": "ser.js",
+  "bin": "ser.js",
+  "pkg": {
+    "assets": [
+      "asset/**/*",
+      "node_modules/node-windows"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "output": "dist"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pkg": "^5.8.1",
+    "radius": "^1.1.4",
+    "yargs": "^17.7.2"
+  }
+}

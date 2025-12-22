@@ -1,0 +1,21 @@
+
+
+
+npx expo prebuild
+
+run on Emulator 
+npx expo run:android
+
+Build development Build
+eas build --profile development --platform android
+
+development build server 
+npx expo start --dev-client
+
+build apk
+eas build -p android --profile preview
+
+
+
+for wizard 
+eas build

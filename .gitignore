@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Keys and secrets (DO NOT COMMIT)
+*.pem
+*.key
+privateKey.pem
+publicKey.pem
+
+# Logs
+logs/
+*.log
+Radius Logs/
+
+# Build outputs
+dist/
+build/
+*.exe
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Expo
+.expo/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+
+# React Native
+android/app/debug/
+android/app/release/
+ios/Pods/
+
+# Temporary files
+*.tmp
+*.temp
+
+# QR Codes (may contain sensitive keys)
+QRCode.png
+
+# Configuration with secrets (create from examples)
+settings.json
+UserDirectory.json
+
+# Keep zip files as backup (optional - remove this line if you don't want them)
+# *.zip

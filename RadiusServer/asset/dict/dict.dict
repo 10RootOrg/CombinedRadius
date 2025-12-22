@@ -1,0 +1,12 @@
+VENDOR          Dav                       11
+
+BEGIN-VENDOR    Dav
+ATTRIBUTE       Type                                    1       string
+ATTRIBUTE       Email                                   2       string
+ATTRIBUTE       Emotion                                 3       string
+
+
+
+
+END-VENDOR Dav
+ 
