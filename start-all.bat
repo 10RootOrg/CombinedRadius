@@ -24,8 +24,24 @@ start "RadiusServer" cmd /k "cd /d %BASEDIR%RadiusServer && node ser.js --jsonSe
 :: Wait 2 seconds
 timeout /t 2 /nobreak >nul
 
-echo Starting PushAppClient (Expo)...
-start "PushAppClient" cmd /k "cd /d %BASEDIR%PushAppClient && npx expo start"
+:: Ask user about tunnel mode
+echo.
+echo ==========================================
+echo    Mobile App Connection Mode
+echo ==========================================
+echo.
+echo    [1] Normal mode (same WiFi network)
+echo    [2] Tunnel mode (works through firewalls)
+echo.
+set /p TUNNEL_CHOICE="Choose mode (1 or 2): "
+
+if "%TUNNEL_CHOICE%"=="2" (
+    echo Starting PushAppClient with TUNNEL mode...
+    start "PushAppClient" cmd /k "cd /d %BASEDIR%PushAppClient && npx expo start --tunnel"
+) else (
+    echo Starting PushAppClient in normal mode...
+    start "PushAppClient" cmd /k "cd /d %BASEDIR%PushAppClient && npx expo start"
+)
 
 echo.
 echo ==========================================
