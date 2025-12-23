@@ -2,6 +2,69 @@
 
 A comprehensive Multi-Factor Authentication (MFA) system that combines RADIUS protocol authentication with push notifications for secure access control.
 
+## 📹 Video Tutorials
+
+**Video Tutorial**  
+[![Video Tutorial](https://img.youtube.com/vi/LcxJObQ10xA/0.jpg)](https://www.youtube.com/watch?v=LcxJObQ10xA)
+
+---
+
+## Quick Start
+
+### Step 1: Install the Mobile App
+
+Install the **10Root PushApp** on your Android device.
+
+### Step 2: Configure Your Phone ID
+
+1. Open the mobile app and find your **Phone ID** on the main screen
+2. Open `RadiusServer/UserDirectory.json`
+3. Add your Phone ID to the `PHONELIST` array:
+
+```json
+{
+    "demo@10root.com": {
+        "FullName": "Demo User",
+        "EMAILLIST": [],
+        "PHONELIST": ["YOUR_PHONE_ID_HERE"]
+    }
+}
+```
+
+### Step 3: Scan the QR Code
+
+In the mobile app, go to **Options** and scan the QR code:
+```
+PushAppServer/10Root-qrCode.png
+```
+
+### Step 4: Start the Servers
+
+Double-click `start-all.bat` (or run `.\start-all.bat` in PowerShell)
+
+The script will:
+- Check if Node.js is installed
+- Install dependencies automatically
+- Generate RSA keys if needed
+- Start PushAppServer (port 5555) and RadiusServer (port 8888)
+
+### Step 5: Test the MFA Flow
+
+Run the PowerShell test script:
+```powershell
+.\test-mfa.ps1
+```
+
+This sends a test request to the server. You should see a push notification on your mobile app - tap **Approve** or **Deny** to complete the test.
+
+### Stop All Services
+
+```batch
+stop-all.bat
+```
+
+---
+
 ## Overview
 
 This suite provides enterprise-grade MFA by integrating three components:
@@ -61,7 +124,6 @@ This suite provides enterprise-grade MFA by integrating three components:
 - **npm** (comes with Node.js)
 - **Expo CLI** - Install globally: `npm install -g expo-cli`
 - **Mobile Device** - Android/iOS with [Expo Go](https://expo.dev/client) app, OR Android Emulator
-- **RADIUS Test Tool** - NTRadPing (Windows) or radtest (Linux) for testing
 
 ### Optional
 - **Android Studio** - For Android emulator
@@ -216,34 +278,6 @@ npx expo run:android
 4. Note your **Phone ID** (Expo Push Token) from the main screen
 5. Add allowed geographic zones (optional)
 
-## Testing the System
-
-### Using NTRadPing (Windows)
-
-1. Download NTRadPing
-2. Configure:
-   - **RADIUS Server:** `127.0.0.1` (or your server IP)
-   - **Port:** `8888`
-   - **Secret:** Your configured secret
-   - **Username:** `testuser@domain.com`
-   - **Password:** `anypassword`
-3. Click "Send"
-
-### Using radtest (Linux/Mac)
-
-```bash
-radtest testuser@domain.com password 127.0.0.1 8888 your_radius_secret
-```
-
-### Expected Flow
-
-1. RADIUS request arrives at RadiusServer
-2. RadiusServer sends request to PushAppServer
-3. PushAppServer sends push notification to mobile app
-4. User receives notification and taps Approve/Deny
-5. Response flows back through the chain
-6. RadiusServer returns Access-Accept or Access-Reject
-
 ## Exit Codes
 
 | Code | Meaning |
@@ -255,28 +289,6 @@ radtest testuser@domain.com password 127.0.0.1 8888 your_radius_secret
 | 7 | Wrong TOTP code |
 | 8 | Majority approval (multi-approval mode) |
 | 9 | Wrong location |
-
-## Troubleshooting
-
-### Push notifications not arriving?
-- Ensure your Phone ID (Expo Push Token) is in `PHONELIST` or `UserDirectory.json`
-- Check that Expo Go app has notification permissions
-- Verify network connectivity
-
-### RADIUS requests failing?
-- Verify the shared secret matches on both client and server
-- Check firewall allows UDP port 8888
-- Ensure PushAppServer is running and accessible
-
-### Email not sending?
-- For Gmail, use App Password (not regular password)
-- Check SMTP settings and email host configuration
-- Verify network allows outbound SMTP (ports 465/587)
-
-### Mobile app won't connect?
-- Use local network IP instead of `localhost` for `APIURL`
-- Ensure all three components are on the same network
-- Check firewall rules
 
 ## Project Structure
 
