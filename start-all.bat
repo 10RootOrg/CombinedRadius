@@ -10,9 +10,33 @@ echo.
 set "BASEDIR=%~dp0"
 
 :: ==========================================
+:: CHECK: Node.js Installation
+:: ==========================================
+where node >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ==========================================
+    echo    ERROR: Node.js is not installed!
+    echo ==========================================
+    echo.
+    echo    Please install Node.js v18 or higher:
+    echo    https://nodejs.org/en/download/
+    echo.
+    echo    After installing, restart this script.
+    echo ==========================================
+    echo.
+    pause
+    exit /b 1
+)
+
+:: Show Node.js version
+for /f "tokens=*" %%i in ('node -v') do set NODE_VERSION=%%i
+echo    Node.js %NODE_VERSION% detected.
+echo.
+
+:: ==========================================
 :: STEP 1: Kill existing processes
 :: ==========================================
-echo [1/6] Stopping any existing Node.js processes...
+echo [1/5] Stopping any existing Node.js processes...
 taskkill /F /IM node.exe >nul 2>&1
 timeout /t 2 /nobreak >nul
 echo       Done.
@@ -21,7 +45,7 @@ echo.
 :: ==========================================
 :: STEP 2: Check and install dependencies
 :: ==========================================
-echo [2/6] Checking dependencies...
+echo [2/5] Checking dependencies...
 
 :: Check PushAppServer
 if not exist "%BASEDIR%PushAppServer\node_modules" (
@@ -57,7 +81,7 @@ echo.
 :: ==========================================
 :: STEP 3: Check/Generate RSA Keys
 :: ==========================================
-echo [3/6] Checking RSA keys...
+echo [3/5] Checking RSA keys...
 if not exist "%BASEDIR%PushAppServer\10Root-privateKey.pem" (
     echo       Generating RSA keys...
     cd /d "%BASEDIR%PushAppServer"
@@ -76,7 +100,7 @@ echo.
 :: ==========================================
 :: STEP 4: Check port availability
 :: ==========================================
-echo [4/6] Checking port availability...
+echo [4/5] Checking port availability...
 
 :: Check port 5555
 netstat -ano | findstr ":5555" >nul 2>&1
@@ -104,7 +128,7 @@ echo.
 :: ==========================================
 :: STEP 5: Start Servers
 :: ==========================================
-echo [5/6] Starting servers...
+echo [5/5] Starting servers...
 
 :: Start PushAppServer (equivalent to RestApi.bat)
 echo       Starting PushAppServer on port 5555...
@@ -119,32 +143,10 @@ timeout /t 2 /nobreak >nul
 echo       Servers started.
 echo.
 
-:: ==========================================
-:: STEP 6: Mobile App
-:: ==========================================
-echo [6/6] Mobile App Setup
-echo.
-echo    ==========================================
-echo       Connection Mode for Mobile App
-echo    ==========================================
-echo.
-echo    [1] Normal mode - Same WiFi network
-echo    [2] Tunnel mode - Works through firewalls
-echo    [3] Skip - Don't start mobile app
-echo.
-set /p TUNNEL_CHOICE="   Choose (1, 2, or 3): "
+:: Start PushAppClient (Expo - WiFi mode)
+echo       Starting PushAppClient...
+start "PushAppClient - Expo" cmd /k "cd /d %BASEDIR%PushAppClient && npx expo start"
 
-if "%TUNNEL_CHOICE%"=="3" (
-    echo       Skipping mobile app.
-) else if "%TUNNEL_CHOICE%"=="2" (
-    echo       Starting PushAppClient with TUNNEL mode...
-    start "PushAppClient - Expo Tunnel" cmd /k "cd /d %BASEDIR%PushAppClient && npx expo start --tunnel"
-) else (
-    echo       Starting PushAppClient in normal mode...
-    start "PushAppClient - Expo" cmd /k "cd /d %BASEDIR%PushAppClient && npx expo start"
-)
-
-echo.
 echo ==========================================
 echo    ALL SERVICES STARTED!
 echo ==========================================
@@ -153,24 +155,9 @@ echo    Services Running:
 echo    -----------------
 echo    PushAppServer:  http://localhost:5555
 echo    RadiusServer:   UDP port 8888
-echo    PushAppClient:  Scan QR code with Expo Go
+echo    PushAppClient:  Expo (WiFi mode)
 echo.
-echo    Next Steps:
-echo    -----------
-echo    1. Open Expo Go on your phone
-echo    2. Scan the QR code from the PushAppClient window
-echo    3. In the app, go to Options and scan:
-echo       %BASEDIR%PushAppServer\10Root-qrCode.png
-echo    4. Copy your Phone ID from the app
-echo    5. Add it to: %BASEDIR%RadiusServer\settings.json
-echo       in the "PHONELIST" field
-echo.
-echo    Test with NTRadPing:
-echo    --------------------
-echo    Server: 127.0.0.1
-echo    Port: 8888
-echo    Secret: testing123
-echo    User: testuser@domain.com
+echo    Test with: .\test-mfa.ps1
 echo.
 echo ==========================================
 pause
